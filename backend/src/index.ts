@@ -1,20 +1,14 @@
 import { Hono } from "hono";
-
-// const app = new Hono();
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
+import { sign } from "hono/jwt";
+import userRoute from "./routes/user";
+import blogRoute from "./routes/blog";
 
 //base path
-const api = new Hono().basePath("/api/v1");
+const app = new Hono();
 
-api.get("/signup", (c) => c.text("Hello user"));
+app.route("/api/v1/user", userRoute);
+app.route("/api/v1/blog",blogRoute);
 
-api.post("/signin", (c) => c.text("Hello user"));
-
-api.post("/blog", (c) => c.text("Hello user"));
-
-api.put("/blog", (c) => c.text("Hello user"));
-api.get("/blog/:id", (c) => {
-  const id = c.req.param("id");
-  return c.text("Hello blog "+ id);
-});
-
-export default api;
+export default app;
