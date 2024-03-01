@@ -39,6 +39,7 @@ blogRoute.post("/create", async (c) => {
       data: {
         title: body.title,
         content: body.content,
+        thumbnail:body.thumbnail,
         authorId: userId,
       },
     });
@@ -61,7 +62,7 @@ blogRoute.put("/update", async (c) => {
     const updatedBlog = await prisma.post.update({
       where: {
         id: body.id,
-        authorId: userId,
+        // authorId: userId,
       },
       data: {
         title: body.title,
