@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { verify } from "hono/jwt";
+import { createBlogInput,updateBlogInput } from "@sagarb2003/blog-web";
 
 const blogRoute = new Hono<{
   Bindings: {
@@ -34,6 +35,13 @@ blogRoute.post("/create", async (c) => {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   const body = await c.req.json();
+  const {success}=createBlogInput.safeParse(body);
+  if(!success){
+    c.status(403);
+    c.json({
+        msg:"Invalid Data"
+    })
+  }
   try {
     const newBlog = await prisma.post.create({
       data: {
@@ -53,11 +61,19 @@ blogRoute.post("/create", async (c) => {
 });
 
 blogRoute.put("/update", async (c) => {
-  const userId = c.get("userId");
+//   const userId = c.get("userId");
+
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   const body = await c.req.json();
+   const { success } = updateBlogInput.safeParse(body);
+   if (!success) {
+     c.status(403);
+     c.json({
+       msg: "Invalid Data",
+     });
+   }
   try {
     const updatedBlog = await prisma.post.update({
       where: {
