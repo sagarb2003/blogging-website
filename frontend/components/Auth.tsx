@@ -1,13 +1,32 @@
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SignUpType } from "@sagarb2003/blog-web";
+import axios from "axios";
 
 export const Auth = ({ type }: { type: "Sign up" | "Sign in" }) => {
+  const navigate = useNavigate();
   const [userInput, setUserInput] = useState<SignUpType>({
     name: "",
     email: "",
     password: "",
   });
+  async function sendRequest() {
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:8787/api/v1/user/${
+          type === "Sign up" ? "signup" : "signin"
+        }`,
+        userInput
+      );
+      //   console.log(response);
+      const jwt = response.data;
+      localStorage.setItem("token", jwt);
+      navigate("/blogs");
+    } catch (e) {
+    //   console.error("Error in sending request:", e);
+      alert("Error in Signing up");
+    }
+  }
   return (
     <div className="h-screen flex justify-center flex-col text-center">
       <div className="text-4xl font-bold">
@@ -56,7 +75,10 @@ export const Auth = ({ type }: { type: "Sign up" | "Sign in" }) => {
         />
       </div>
       <div className="mt-2">
-        <button className="bg-black text-white w-72 text-lg font-bold p-2 rounded-xl">
+        <button
+          className="bg-black text-white w-72 text-lg font-bold p-2 rounded-xl"
+          onClick={sendRequest}
+        >
           {type == "Sign up" ? "Sign up" : "Sign in"}
         </button>
       </div>
