@@ -13,7 +13,7 @@ export const Auth = ({ type }: { type: "Sign up" | "Sign in" }) => {
   async function sendRequest() {
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8787/api/v1/user/${
+        `https://backend.sagarsinghbisht248.workers.dev/api/v1/user/${
           type === "Sign up" ? "signup" : "signin"
         }`,
         userInput
