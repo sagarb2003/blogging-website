@@ -48,8 +48,8 @@ blogRoute.post("/create", async (c) => {
         title: body.title,
         content: body.content,
         thumbnail: body.thumbnail,
-        authorName:body.authorName,
-        publishedDate:body.publishedDate,
+        authorName: body.authorName,
+        publishedDate: body.publishedDate,
         authorId: userId,
       },
     });
@@ -122,5 +122,23 @@ blogRoute.get("/:id", async (c) => {
     return c.text("Blog Not found");
   }
 });
+
+// blogRoute.delete("/", async (c) => {
+//   const prisma = new PrismaClient({
+//     datasourceUrl: c.env.DATABASE_URL,
+//   }).$extends(withAccelerate());
+//   const body=await c.req.json();
+//   try {
+//     const getBlogById = await prisma.post.delete({
+//       where: {
+//         id:body.id,
+//       },
+//     });
+//     return c.json({ msg: "Blog deleted" });
+//   } catch (e) {
+//     c.status(403);
+//     return c.text("Blog Not found");
+//   }
+// });
 
 export default blogRoute;
