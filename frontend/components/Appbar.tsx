@@ -1,9 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import image from "../assets/blogvista.png";
+
 export const Appbar = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
+  const handleLogout = () => {
+    // Clear token from local storage
+    localStorage.removeItem("token");
+
+    // Redirect to the login page
+    navigate("/signin");
+  };
+
   return (
-    <nav className="bg-gray-300 border-slate-500 ">
+    <nav className="bg-gray-300 border-slate-500 relative">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
         <a
           href="/blogs"
@@ -21,14 +40,41 @@ export const Appbar = () => {
               Publish
             </Link>
           </div>
-          <div>
+          <div className="relative">
             <img
-              className="w-10 h-9 rounded-full border-2 border-slate-800 "
+              onClick={toggleDropdown}
+              className="w-10 h-9 rounded-full border-2 border-slate-800 cursor-pointer"
               src="https://miro.medium.com/v2/resize:fill:270:181/1*P85gowan0ZBnI1RgfPgeiw.png"
               alt="user photo"
             />
+
+            {/* Dropdown menu */}
+            {isDropdownOpen && (
+              <div
+                className="z-10 absolute top-full  left-1 bg-white divide-y divide-gray-100 rounded-lg shadow w-22 dark:bg-gray-700"
+                onClick={closeDropdown}
+              >
+                <ul className="py-1 text-md text-gray-500 dark:text-gray-200">
+                  {/* <li>
+                    <Link
+                      to="#"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Profile
+                    </Link>
+                  </li> */}
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
-          <div></div>
         </div>
       </div>
     </nav>
