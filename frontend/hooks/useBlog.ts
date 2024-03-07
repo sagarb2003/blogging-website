@@ -1,0 +1,30 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+interface Blog {
+  id: string;
+  authorName: string;
+  title: string;
+  content: string;
+  publishedDate: string;
+  thumbnail: string;
+}
+export const useBlog = ({ id }: { id: string }) => {
+  const [loading, setLoading] = useState(true);
+  const [blog, setBlog] = useState<Blog[]>([]);
+
+  useEffect(() => {
+    axios
+      .get(`https://backend.sagarsinghbisht248.workers.dev/api/v1/blog/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      })
+      .then((response) => {
+        setBlog(response.data.msg);
+        setLoading(false);
+      });
+  }, [id]);
+  return {
+    blog,
+    loading,
+  };
+};

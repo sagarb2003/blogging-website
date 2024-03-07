@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 interface BlogCardProps {
-    id:string,
+  id: string;
   authorName: string;
   title: string;
   content: string;
@@ -11,7 +11,7 @@ interface BlogCardProps {
 }
 
 export const BlogCard = ({
-    id,
+  id,
   authorName,
   title,
   content,
@@ -23,7 +23,7 @@ export const BlogCard = ({
       <div className="mt-4 ml-4 ">
         <a
           href="#"
-          className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+          className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-2xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           <img
             className="object-cover w-96 rounded-lg h-72 md:h-48 md:w-52  md:p-2 md:rounded-lg"
