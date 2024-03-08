@@ -11,7 +11,7 @@ interface Blog {
 }
 export const useBlog = ({ id }: { id: string }) => {
   const [loading, setLoading] = useState(true);
-  const [blog, setBlog] = useState<Blog[]>([]);
+  const [blog, setBlog] = useState<Blog | null>(null);
 
   useEffect(() => {
     axios

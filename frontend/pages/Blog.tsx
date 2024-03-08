@@ -8,20 +8,36 @@ import { Skeleton } from "../components/Skeleton";
 export const Blog = () => {
   const { id } = useParams();
   const { blog, loading } = useBlog({ id: id || "" });
+
+  if (loading) {
+    return (
+      <div>
+        <Appbar />
+        <Skeleton />
+      </div>
+    );
+  }
+
+  if (!blog) {
+    // Handle the case where blog is null
+    return (
+      <div>
+        <Appbar />
+        <p>Blog not found.</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Appbar />
-      {loading ? (
-        <Skeleton />
-      ) : (
-        <FullBlog
-          title={blog.title}
-          authorName={blog.authorName}
-          content={blog.content}
-          thumbnail={blog.thumbnail}
-          publishedDate={blog.publishedDate}
-        />
-      )}
+      <FullBlog
+        title={blog.title}
+        authorName={blog.authorName}
+        content={blog.content}
+        thumbnail={blog.thumbnail}
+        publishedDate={blog.publishedDate}
+      />
     </div>
   );
 };

@@ -1,14 +1,13 @@
 import axios from "axios";
-import { set } from "mongoose";
 import { useEffect, useState } from "react";
 
 interface Blogs {
-  id: string,
-  authorName: string,
-  title:string,
-  content:string,
-  publishedDate:string,
-  thumbnail:string
+  id: string;
+  authorName: string;
+  title: string;
+  content: string;
+  publishedDate: string;
+  thumbnail: string;
 }
 export const useBlogs = () => {
   const [loading, setLoading] = useState(true);
