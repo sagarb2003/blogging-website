@@ -17,6 +17,10 @@ export const BlogCard = ({
   publishedDate,
   thumbnail,
 }: BlogCardProps) => {
+   function compressContent(){
+    const words=content.split(' ');
+    return words.length>20 ? words.slice(0,20).join(' '):content;
+   }
   return (
     <Link to={`/blog/${id}`}>
       <div className="mt-4 ml-4 ">
@@ -37,7 +41,7 @@ export const BlogCard = ({
               {title}
             </h5>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              {content}
+              {compressContent()}{"..."}
             </p>
           </div>
         </a>
