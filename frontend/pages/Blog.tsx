@@ -2,7 +2,6 @@
 import { useBlog } from "../hooks/useBlog";
 import { useParams } from "react-router-dom";
 import { FullBlog } from "../components/FullBlog";
-import { Appbar } from "../components/Appbar";
 import { Skeleton } from "../components/Skeleton";
 
 export const Blog = () => {
@@ -12,7 +11,6 @@ export const Blog = () => {
   if (loading) {
     return (
       <div>
-        <Appbar />
         <Skeleton />
       </div>
     );
@@ -22,7 +20,6 @@ export const Blog = () => {
     // Handle the case where blog is null
     return (
       <div>
-        <Appbar />
         <p>Blog not found.</p>
       </div>
     );
@@ -30,7 +27,6 @@ export const Blog = () => {
 
   return (
     <div>
-      <Appbar />
       <FullBlog
         title={blog.title}
         authorName={blog.authorName}

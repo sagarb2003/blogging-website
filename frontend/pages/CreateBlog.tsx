@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Appbar } from "../components/Appbar";
+
 
 export const CreateBlog = () => {
   const navigate = useNavigate();
@@ -37,17 +37,14 @@ export const CreateBlog = () => {
       .then((response) => {
         console.log("Blog created successfully:", response.data);
         navigate("/blogs");
-        // You can add logic to handle successful creation
       })
       .catch((error) => {
         console.error("Error creating blog:", error);
-        // You can add logic to handle errors
       });
   }
 
   return (
     <div>
-      <Appbar />
       <div className="flex items-center justify-center mt-3">
         <form
           onSubmit={handleSubmit}
