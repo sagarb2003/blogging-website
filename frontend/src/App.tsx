@@ -4,7 +4,9 @@ import { Signin } from "../pages/Signin";
 import { Blogs } from "../pages/Blogs";
 import { Blog } from "../pages/Blog";
 import { CreateBlog } from "../pages/CreateBlog";
-import {Appbar} from '../components/Appbar'
+import { Appbar } from "../components/Appbar";
+import { Toast } from "../components/Toast";
+
 import { useState } from "react";
 
 function App() {
@@ -13,16 +15,17 @@ function App() {
   const shouldShowAppbar = !["/signin", "/signup"].includes(location.pathname);
   return (
     <>
-        {shouldShowAppbar && (
-          <Appbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        )}
-        <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/blogs" element={<Blogs searchQuery={searchQuery} />} />
-          <Route path="/blog/:id" element={<Blog />} />
-          <Route path="/blog/publish" element={<CreateBlog />} />
-        </Routes>
+      <Toast />
+      {shouldShowAppbar && (
+        <Appbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      )}
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/blogs" element={<Blogs searchQuery={searchQuery} />} />
+        <Route path="/blog/:id" element={<Blog />} />
+        <Route path="/blog/publish" element={<CreateBlog />} />
+      </Routes>
     </>
   );
 }

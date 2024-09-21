@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import image from "../assets/blogvista.png";
+import toast from "react-hot-toast";
 
 interface AppbarProps {
   searchQuery: string;
@@ -24,7 +25,7 @@ export const Appbar = ({ searchQuery, setSearchQuery }: AppbarProps) => {
   const handleLogout = () => {
     // Clear token from local storage
     localStorage.removeItem("token");
-
+    toast.success("Logged Out successfully");
     // Redirect to the login page
     navigate("/signin");
   };

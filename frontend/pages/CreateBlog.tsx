@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import toast from "react-hot-toast";
 
 export const CreateBlog = () => {
   const navigate = useNavigate();
@@ -36,10 +36,11 @@ export const CreateBlog = () => {
       )
       .then((response) => {
         console.log("Blog created successfully:", response.data);
+        toast.success("Blog created successfully");
         navigate("/blogs");
       })
       .catch((error) => {
-        console.error("Error creating blog:", error);
+        toast.error("Error while creating a Blog", error);
       });
   }
 

@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SignUpType } from "@sagarb2003/blog-web";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 export const Auth = ({ type }: { type: "Sign up" | "Sign in" }) => {
@@ -21,10 +22,11 @@ export const Auth = ({ type }: { type: "Sign up" | "Sign in" }) => {
       //   console.log(response);
       const jwt = response.data;
       localStorage.setItem("token", jwt);
+      toast.success("Logged In successfully");
       navigate("/blogs");
-    } catch (e) {
-    //   console.error("Error in sending request:", e);
-      alert("Error in Signing up");
+    } catch (error: any) {
+      //   console.error("Error in sending request:", e);
+      toast.error("Please Enter Correct Credentials");
     }
   }
   return (
