@@ -20,7 +20,23 @@ export const CreateBlog = () => {
       [name]: value,
     }));
   }
-
+  async function handleImageUpload(event:any){
+    const file=event.target.files[0];
+    if(!file) return;
+    const data = new FormData();
+    data.append("file",file)
+    data.append("upload_preset", "blog_upload_image");
+    data.append("cloud_name","sagarb2003")
+    const res=await fetch("https://api.cloudinary.com/v1_1/sagarb2003/image/upload",{
+      method:"POST",
+      body:data
+    });
+    const uploadImageUrl= await res.json();
+    setInput((prevInput) => ({
+      ...prevInput,
+      thumbnail: uploadImageUrl.secure_url,
+    }));
+  }
   function handleSubmit(e: any) {
     e.preventDefault();
 
@@ -112,13 +128,8 @@ export const CreateBlog = () => {
               Thumbnail URL
             </label>
             <input
-              type="text"
-              id="thumbnail"
-              name="thumbnail"
-              placeholder="Give Image URL"
-              value={input.thumbnail}
-              onChange={handleChange}
-              className="mt-1 p-3 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300 dark:text-black"
+              type="file"
+              onChange={handleImageUpload}
               required
             />
           </div>
