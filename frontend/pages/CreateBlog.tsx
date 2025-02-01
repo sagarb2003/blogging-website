@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { format } from 'date-fns';
 
 export const CreateBlog = () => {
   const navigate = useNavigate();
@@ -20,6 +21,16 @@ export const CreateBlog = () => {
       [name]: value,
     }));
   }
+
+  function handleDateChange(e: any) {
+    const date = new Date(e.target.value);
+    const formattedDate = format(date, 'MMM dd, yyyy');
+    setInput((prevInput) => ({
+      ...prevInput,
+      publishedDate: formattedDate,
+    }));
+  }
+
   async function handleImageUpload(event:any){
     const file=event.target.files[0];
     if(!file) return;
@@ -36,6 +47,7 @@ export const CreateBlog = () => {
       ...prevInput,
       thumbnail: uploadImageUrl.secure_url,
     }));
+    toast.success("Image uploaded successfully");
   }
   function handleSubmit(e: any) {
     e.preventDefault();
@@ -141,12 +153,10 @@ export const CreateBlog = () => {
               Published Date
             </label>
             <input
-              type="text"
+              type="date"
               id="publishedDate"
               name="publishedDate"
-              placeholder="Enter Date(Feb 24, 2024)"
-              value={input.publishedDate}
-              onChange={handleChange}
+              onChange={handleDateChange}
               className="mt-1 p-3 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300 dark:text-black"
               required
             />
