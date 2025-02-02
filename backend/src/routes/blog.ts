@@ -123,6 +123,24 @@ blogRoute.get("/:id", async (c) => {
   }
 });
 
+blogRoute.get("/user/:id", async (c) => {
+  const userId = c.req.param("id");
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const userBlogs = await prisma.post.findMany({
+      where: {
+        authorId: userId,
+      },
+    });
+    return c.json({ userBlogs });
+  } catch (e) {
+    c.status(403);
+    return c.json({ msg: "Error fetching blogs for the user" });
+  }
+});
+
 // blogRoute.delete("/", async (c) => {
 //   const prisma = new PrismaClient({
 //     datasourceUrl: c.env.DATABASE_URL,
