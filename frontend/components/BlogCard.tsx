@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Calendar, User, ArrowRight } from "lucide-react";
 
 interface BlogCardProps {
   id: string;
@@ -23,28 +24,40 @@ export const BlogCard = ({
    }
   return (
     <Link to={`/blog/${id}`}>
-      <div className="mt-4 ml-4 ">
-        <a
-          href="#"
-          className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-2xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-        >
+      <div className="p-4 transition-transform duration-300 hover:scale-[1.02]">
+        <div className="flex flex-col bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden md:flex-row md:max-w-2xl hover:shadow-md transition-shadow duration-300">
+
           <img
-            className="object-cover w-96 rounded-lg h-72 md:h-48 md:w-52  md:p-2 md:rounded-lg"
+            className="object-cover w-full h-64 md:h-48 md:w-48 transition-transform duration-300 hover:scale-105"
             src={thumbnail}
             alt=""
           />
-          <div className="flex flex-col justify-between p-4 leading-normal">
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              {authorName} . {publishedDate}
-            </p>
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <div className="flex flex-col justify-between p-6 leading-normal w-full">
+            <div className="flex items-center space-x-4 mb-3 text-sm text-gray-600">
+              <div className="flex items-center">
+                <User className="w-4 h-4 mr-1" />
+                <span>{authorName}</span>
+              </div>
+              <div className="flex items-center">
+                <Calendar className="w-4 h-4 mr-1" />
+                <span>{publishedDate}</span>
+              </div>
+            </div>
+            
+            <h5 className="mb-3 text-xl font-bold tracking-tight text-gray-900 hover:text-blue-600 transition-colors duration-200">
               {title}
             </h5>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              {compressContent()}{"..."}
+            
+            <p className="mb-4 text-gray-600 line-clamp-2">
+              {compressContent()}
             </p>
+            
+            <div className="flex items-center text-blue-600 hover:text-blue-700 transition-colors duration-200">
+              <span className="text-sm font-medium">Read more</span>
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </div>
           </div>
-        </a>
+        </div>
       </div>
     </Link>
   );
