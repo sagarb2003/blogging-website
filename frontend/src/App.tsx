@@ -6,13 +6,14 @@ import { Blog } from "../pages/Blog";
 import { CreateBlog } from "../pages/CreateBlog";
 import { Appbar } from "../components/Appbar";
 import { Toast } from "../components/Toast";
+import { HomePage } from "../pages/HomePage";
 
 import { useState } from "react";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const location = useLocation();
-  const shouldShowAppbar = !["/signin", "/signup"].includes(location.pathname);
+  const shouldShowAppbar = !["/signin", "/signup","/"].includes(location.pathname);
   return (
     <>
       <Toast />
@@ -20,6 +21,7 @@ function App() {
         <Appbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       )}
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/blogs" element={<Blogs searchQuery={searchQuery} />} />
