@@ -33,7 +33,7 @@ export const HomePage = () => {
                             transition={{ duration: 0.8 }}
                             className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 leading-tight"
                         >
-                            Share Your Story With The World
+                            Write Boldly. Impact Deeply.
                         </motion.h1>
                         <motion.p 
                             initial={{ opacity: 0, y: 20 }}
@@ -41,7 +41,7 @@ export const HomePage = () => {
                             transition={{ duration: 0.8, delay: 0.2 }}
                             className="mt-6 text-lg md:text-xl text-gray-600"
                         >
-                            Your ideas deserve to be heard. Start writing today and connect with readers around the globe.
+                            Start your writing journey and connect with a community that’s eager to hear your voice.
                         </motion.p>
                         <motion.div 
                             initial={{ opacity: 0, y: 20 }}
@@ -135,14 +135,14 @@ export const HomePage = () => {
                 </div>
             </section>
 
-            <footer className="bg-gray-800 text-white py-8 px-6 md:px-10 lg:px-16">
+            <footer className="bg-gray-800 text-white py-4 px-6 md:px-10 lg:px-16">
                 <div className="max-w-7xl mx-auto text-center">
                     <p className="text-lg">Built with ❤️ by Sagar</p>
                     <div className="mt-6 flex justify-center space-x-6">
-                        <a href="#" className="text-gray-400 hover:text-white transition duration-300">
+                        <a href="https://github.com/sagarb2003" target='_blank' className="text-gray-400 hover:text-white transition duration-300">
                             <Github/>
                         </a>
-                        <a href="#" className="text-gray-400 hover:text-white transition duration-300">
+                        <a href="https://x.com/sagarb2003" target="_blank" className="text-gray-400 hover:text-white transition duration-300">
                             <Twitter/>
                         </a>
                     </div>
