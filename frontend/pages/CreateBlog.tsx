@@ -17,11 +17,6 @@ export const CreateBlog = () => {
     thumbnail: "",
     publishedDate: "",
   });
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/signin");
-    }
-  }, []);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;

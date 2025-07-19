@@ -1,14 +1,11 @@
 import { BlogCard } from "../components/BlogCard";
-import {useBlogs} from '../hooks/useBlogs'
-import {Skeleton} from '../components/Skeleton'
-import { useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { useBlogs } from '../hooks/useBlogs'
+import { Skeleton } from '../components/Skeleton'
 
 interface BlogsProps {
   searchQuery: string;
 }
 export const Blogs = ({ searchQuery }: BlogsProps) => {
-  const navigate = useNavigate();
   const { blogs, loading } = useBlogs();
   if (loading === true) {
     <div>Loading.....</div>;
@@ -17,12 +14,6 @@ export const Blogs = ({ searchQuery }: BlogsProps) => {
   const filteredBlogs = blogs.filter((blog) =>
     blog.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/signin");
-    }
-  }, []);
   return (
     <>
       {loading ? (
