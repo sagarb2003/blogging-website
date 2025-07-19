@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { format } from 'date-fns';
@@ -17,6 +17,11 @@ export const CreateBlog = () => {
     thumbnail: "",
     publishedDate: "",
   });
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/signin");
+    }
+  }, []);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
