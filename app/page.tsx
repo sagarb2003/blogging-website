@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { BookOpen, ArrowRight, Sparkles, PenTool, Users, Heart, Github, Twitter } from "lucide-react";
+import { ImageCarousel } from "@/components/ImageCarousel";
 
 export default function HomePage() {
   return (
@@ -57,20 +57,7 @@ export default function HomePage() {
               <h2 className="text-3xl font-bold text-gray-900 mb-2">Featured Stories</h2>
               <p className="text-gray-600">Discover the most engaging content from our community</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {["image-1.jpeg", "image-2.jpeg", "image-3.jpeg"].map((src, i) => (
-                <div key={src} className="relative h-56 rounded-2xl overflow-hidden shadow-2xl">
-                  <Image
-                    src={`/${src}`}
-                    alt={`Featured content ${i + 1}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                    className="object-cover"
-                    priority={i === 0}
-                  />
-                </div>
-              ))}
-            </div>
+            <ImageCarousel images={["image-1.jpeg", "image-2.jpeg", "image-3.jpeg"]} />
           </div>
         </div>
       </section>
