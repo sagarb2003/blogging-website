@@ -23,8 +23,4 @@ npx prisma migrate deploy
 npm run dev
 ```
 
-If migrating existing production data with plaintext passwords, run
-`npx tsx scripts/hash-passwords.ts` once against that database before
-switching auth over, then delete the script.
-
 
