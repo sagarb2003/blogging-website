@@ -3,8 +3,9 @@
 import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import toast from "react-hot-toast";
-import { Upload, ImageIcon, FileText, Eye, X, CheckCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Check, ImagePlus, Loader2, Send, X } from "lucide-react";
 import { createBlog, getCloudinarySignature } from "@/actions/blog";
+import { readingTime } from "@/lib/format";
 
 function SubmitButton({ disabled }: { disabled: boolean }) {
   const { pending } = useFormStatus();
@@ -12,18 +13,18 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <button
       type="submit"
       disabled={disabled || pending}
-      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+      className="group inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-ink text-[15px] font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_10px_30px_-12px_rgba(12,12,14,0.6)] transition-all hover:bg-zinc-800 disabled:cursor-not-allowed disabled:bg-zinc-300 disabled:shadow-none"
     >
       {pending ? (
-        <div className="flex items-center justify-center">
-          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-          Publishing...
-        </div>
+        <>
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Publishing…
+        </>
       ) : (
-        <div className="flex items-center justify-center">
-          <FileText className="w-5 h-5 mr-2" />
-          Publish Blog Post
-        </div>
+        <>
+          <Send className="h-4 w-4 transition-transform group-enabled:group-hover:translate-x-0.5" />
+          Publish story
+        </>
       )}
     </button>
   );
@@ -34,6 +35,15 @@ export const CreateBlogForm = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const { words, minutes } = readingTime(content);
+  const checklist = [
+    { label: "Add a title", done: title.trim().length > 0 },
+    { label: "Upload a cover image", done: Boolean(thumbnail) },
+    { label: "Write your story", done: content.trim().length > 0 },
+  ];
 
   const validateImageFile = (file: File) => {
     const validExtensions = ["jpg", "jpeg", "png", "gif", "webp", "bmp"];
@@ -97,93 +107,147 @@ export const CreateBlogForm = () => {
   };
 
   return (
-    <form action={formAction} className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
-      <div className="space-y-2">
-        <label htmlFor="title" className="flex items-center text-lg font-semibold text-gray-700">
-          <FileText className="w-5 h-5 mr-2 text-purple-600" />
-          Blog Title
-        </label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          placeholder="Enter an engaging title"
-          className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-all duration-200 text-gray-800 placeholder-gray-400"
-          required
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label htmlFor="content" className="flex items-center text-lg font-semibold text-gray-700">
-          <Eye className="w-5 h-5 mr-2 text-green-600" />
-          Content
-        </label>
-        <textarea
-          id="content"
-          name="content"
-          placeholder="Write your blog content here..."
-          rows={8}
-          className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:outline-none transition-all duration-200 text-gray-800 placeholder-gray-400 resize-vertical"
-          required
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label className="flex items-center text-lg font-semibold text-gray-700">
-          <ImageIcon className="w-5 h-5 mr-2 text-orange-600" />
-          Thumbnail Image
-        </label>
+    <form action={formAction} className="grid gap-8 lg:grid-cols-[1fr_300px] lg:gap-12">
+      <div className="min-w-0">
+        {/* Cover */}
         <input type="hidden" name="thumbnail" value={thumbnail} />
         {!previewImage ? (
-          <div className="relative">
+          <div>
             <input
               type="file"
               id="thumbnail-file"
               onChange={handleImageUpload}
               accept="image/*"
-              className="hidden"
+              className="peer sr-only"
             />
             <label
               htmlFor="thumbnail-file"
-              className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-orange-300 rounded-xl cursor-pointer bg-orange-50 hover:bg-orange-100 transition-all duration-200"
+              className="group flex aspect-[16/7] w-full cursor-pointer flex-col items-center justify-center rounded-3xl border border-dashed border-black/15 bg-white/60 text-center transition-colors hover:border-ember-500/50 hover:bg-ember-50/40 peer-focus-visible:ring-4 peer-focus-visible:ring-ember-500/20"
             >
-              {isUploading ? (
-                <div className="flex flex-col items-center">
-                  <Loader2 className="w-12 h-12 text-orange-600 animate-spin mb-2" />
-                  <p className="text-orange-600 font-medium">Uploading...</p>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center">
-                  <Upload className="w-12 h-12 text-orange-600 mb-2" />
-                  <p className="text-orange-600 font-medium">Click to upload image</p>
-                  <p className="text-orange-400 text-sm mt-1">JPG, PNG, GIF, WEBP (Max 5MB)</p>
-                </div>
-              )}
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-zinc-500 shadow-sm ring-1 ring-black/[0.06] transition-colors group-hover:text-ember-500">
+                <ImagePlus className="h-5 w-5" />
+              </span>
+              <p className="mt-4 text-sm font-medium text-ink">Add a cover image</p>
+              <p className="mt-1 text-xs text-zinc-500">JPG, PNG, GIF or WEBP · up to 5MB</p>
             </label>
           </div>
         ) : (
-          <div className="relative">
+          <div className="relative aspect-[16/7] overflow-hidden rounded-3xl border border-black/[0.06] bg-zinc-100">
             {/* eslint-disable-next-line @next/next/no-img-element -- local data: URL preview, not an optimizable remote image */}
-            <img src={previewImage} alt="Preview" className="w-full h-48 object-cover rounded-xl border-2 border-orange-200" />
-            <button
-              type="button"
-              onClick={removeImage}
-              className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-colors duration-200"
-            >
-              <X className="w-4 h-4" />
-            </button>
-            <div className="absolute bottom-2 left-2 bg-green-500 text-white rounded-full p-1">
-              <CheckCircle className="w-4 h-4" />
-            </div>
+            <img src={previewImage} alt="Cover preview" className="h-full w-full object-cover" />
+            {isUploading && (
+              <div className="absolute inset-0 grid place-items-center bg-white/60 backdrop-blur-sm">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-ink shadow-lg">
+                  <Loader2 className="h-4 w-4 animate-spin text-ember-500" />
+                  Uploading…
+                </span>
+              </div>
+            )}
+            {!isUploading && (
+              <>
+                <span className="absolute bottom-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-emerald-700 shadow backdrop-blur">
+                  <Check className="h-3.5 w-3.5" />
+                  Cover uploaded
+                </span>
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  aria-label="Remove cover image"
+                  className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-zinc-700 shadow backdrop-blur transition-colors hover:bg-white hover:text-red-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </>
+            )}
           </div>
         )}
+
+        {/* Title */}
+        <label htmlFor="title" className="sr-only">
+          Title
+        </label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Your story's title"
+          className="mt-10 w-full bg-transparent text-4xl font-semibold tracking-[-0.03em] text-ink outline-none placeholder:text-zinc-300 sm:text-5xl"
+          required
+        />
+
+        {/* Content */}
+        <label htmlFor="content" className="sr-only">
+          Content
+        </label>
+        <textarea
+          id="content"
+          name="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Tell your story…"
+          rows={14}
+          className="mt-6 field-sizing-content min-h-[50vh] w-full resize-none bg-transparent text-[18px] leading-[1.8] text-zinc-800 outline-none placeholder:text-zinc-300"
+          required
+        />
       </div>
 
-      {state?.error && <p className="text-red-600 text-sm">{state.error}</p>}
+      {/* Sidebar */}
+      <aside className="lg:sticky lg:top-24 lg:self-start">
+        <div className="rounded-3xl border border-black/[0.06] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-400">Ready to publish</p>
+          <ul className="mt-4 space-y-3">
+            {checklist.map((item) => (
+              <li key={item.label} className="flex items-center gap-3 text-sm">
+                <span
+                  className={`grid h-5 w-5 place-items-center rounded-full transition-colors ${
+                    item.done ? "bg-emerald-500 text-white" : "border border-black/10 text-transparent"
+                  }`}
+                >
+                  <Check className="h-3 w-3" />
+                </span>
+                <span className={item.done ? "text-zinc-400 line-through" : "text-zinc-700"}>{item.label}</span>
+              </li>
+            ))}
+          </ul>
 
-      <div className="pt-2">
-        <SubmitButton disabled={!thumbnail || isUploading} />
-      </div>
+          <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-black/[0.06] pt-5 text-sm">
+            <div>
+              <dt className="text-xs text-zinc-400">Words</dt>
+              <dd className="mt-0.5 font-medium tabular-nums text-ink">{content.trim() ? words.toLocaleString() : 0}</dd>
+            </div>
+            <div>
+              <dt className="text-xs text-zinc-400">Reading time</dt>
+              <dd className="mt-0.5 font-medium text-ink">{content.trim() ? `${minutes} min` : "—"}</dd>
+            </div>
+          </dl>
+
+          {state?.error && (
+            <p
+              role="alert"
+              className="mt-5 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700"
+            >
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+              {state.error}
+            </p>
+          )}
+
+          <div className="mt-5">
+            <SubmitButton disabled={!thumbnail || isUploading} />
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-3xl border border-black/[0.06] bg-white/60 p-5">
+          <p className="font-serif text-xl text-ink">Writing tips</p>
+          <ul className="mt-3 space-y-2 text-sm leading-relaxed text-zinc-500">
+            <li>Lead with a title that makes a promise.</li>
+            <li>Keep paragraphs short — press Enter often.</li>
+            <li>Pick a cover that sets the mood.</li>
+            <li>Read it aloud once before you publish.</li>
+          </ul>
+        </div>
+      </aside>
     </form>
   );
 };
