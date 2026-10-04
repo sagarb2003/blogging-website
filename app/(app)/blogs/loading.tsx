@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/Skeleton";
+import { BlogListSkeleton } from "@/components/Skeleton";
 
 export default function Loading() {
-  return <Skeleton />;
+  return <BlogListSkeleton />;
 }

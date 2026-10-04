@@ -24,7 +24,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <Toaster position="top-center" />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: {
+              background: "#0c0c0e",
+              color: "#fff",
+              borderRadius: "14px",
+              fontSize: "14px",
+              padding: "10px 14px",
+            },
+            success: { iconTheme: { primary: "#34d399", secondary: "#0c0c0e" } },
+            error: { iconTheme: { primary: "#ff7a4d", secondary: "#0c0c0e" } },
+          }}
+        />
         {children}
       </body>
     </html>
